@@ -1,0 +1,118 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <title>SOS</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/bootstrap.min.js" ></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <label class="col-sm-12">pom.xml</label>
+        <div class="col-sm-12">
+            <div class="form-floating">
+                <textarea class="form-control" rows="8" style="height: 250px" >
+                    ...
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-security</artifactId>
+                    </dependency>
+                    ...
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="col-sm-12">SecurityConfiguration</label>
+        <div class="col-sm-12">
+            <div class="form-floating">
+                <textarea class="form-control" rows="8" style="height: 250px" >
+                    @Configuration
+                    @EnableWebSecurity
+                    @Log4j2
+                    public class SecurityConfiguration {
+                         @Bean
+                        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+                            http.authorizeHttpRequests(registry -> {
+                                // 定義哪些URL需要被保護、哪些不需要被保護
+                                registry.requestMatchers("/web/**").authenticated()
+                                        .anyRequest().permitAll();
+
+                            });
+                            return http.build();
+                        }
+                    }
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <label class="col-sm-12">SecurityConfiguration</label>
+        <div class="col-sm-12">
+            <div class="form-floating">
+                <textarea class="form-control" rows="8" style="height: 250px" >
+                    @Bean
+                    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+                        return new BCryptPasswordEncoder();
+                    }
+
+                    @Bean
+                    public UserDetailsServiceImpl userDetailsService() {
+                        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
+                        userDetailsService.setPasswordEncoder(bCryptPasswordEncoder());
+                        return userDetailsService;
+                    }
+
+                    @Bean
+                    public DaoAuthenticationProvider daoAuthenticationProvider() {
+                        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+                        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+                        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+                        return daoAuthenticationProvider;
+                    }
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-sm-12">SecurityConfiguration</label>
+        <img src="folder.png" class="col-sm-3">
+    </div>
+    <div class="row">
+        <label class="col-sm-12">SecurityConfiguration</label>
+        <div class="col-sm-12">
+            <a href="java/SessionData.java"><span class="badge bg-primary px-1">SessionData</span></a>
+            <a href="java/UserDetailsServiceImpl.java"><span class="badge bg-primary px-1">UserDetailsServiceImpl</span></a>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <label class="col-sm-12">nav.html</label>
+        <div class="col-sm-12">
+            <div class="form-floating">
+                <textarea class="form-control" rows="8" style="height: 250px" >
+                    <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="POST">
+                      <button class="btn btn-secondary my-2 my-sm-0" type="submit" th:text="#{btn.logout}"></button>
+                    </form>
+                </textarea>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <label class="col-sm-12">SecurityConfiguration</label>
+        <div class="col-sm-12">
+            <a href="java/SecurityConfiguration.java"><span class="badge bg-primary px-1">SecurityConfiguration</span></a>
+        </div>
+    </div>
+</div>
+<hr>
+<p>https://github.com/chihualu/tku-202301.git</p>
+</body>
+</html>
